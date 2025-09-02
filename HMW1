@@ -1,0 +1,33 @@
+x_values = [15, 30, 45, 60, 75]
+y_values = [25, 50, 75, 100, 125]
+x_avg = sum(x_values) / len(x_values)
+y_avg = sum(y_values) / len(y_values)
+
+num = 0
+den = 0
+for x, y in zip(x_values, y_values):
+    num += (x - x_avg) * (y - y_avg)
+    den += (x - x_avg) ** 2
+slope = num / den
+intercept = y_avg - slope * x_avg
+print("Slope (m):", slope)
+print("Intercept (c):", intercept)
+
+x_new = 6
+y_pred = slope * x_new + intercept
+print(f"If x = {x_new}, predicted y = {y_pred}")
+try:
+    import matplotlib.pyplot as plt
+    plt.scatter(x_values, y_values, color="blue", label="Data points")
+    line_y = [slope * x + intercept for x in x_values]
+    plt.plot(x_values, line_y, color="red", label="Best fit line")
+    plt.legend()
+    plt.show()
+except ImportError:
+    print("matplotlib not installed, skipping graph.")
+
+output:
+Slope (m): 1.6666666666666667
+Intercept (c): 0.0
+If x = 6, predicted y = 10.0
+matplotlib not installed, skipping graph.
