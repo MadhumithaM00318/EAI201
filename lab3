@@ -1,0 +1,170 @@
+import heapq, math, time
+
+
+grid = [
+    ['S', 0, 0, 1, 0],
+    [1, 1, 0, 1, 'G'],
+    [0, 5, 0, 1, 0],
+    [1, 1, 0, 1, 1],
+    [0, 0, 0, 0, 0]
+]
+
+rows, cols = len(grid), len(grid[0])
+
+
+for i in range(rows):
+    for j in range(cols):
+        if grid[i][j] == 'S':
+            start = (i, j)
+        if grid[i][j] == 'G':
+            goal = (i, j)
+
+
+def manhattan(a, b): return abs(a[0]-b[0]) + abs(a[1]-b[1])
+def euclidean(a, b): return math.hypot(a[0]-b[0], a[1]-b[1])
+def diagonal(a, b): return max(abs(a[0]-b[0]), abs(a[1]-b[1]))
+
+def cost(x, y): return 5 if grid[x][y] == 5 else 1
+def neighbors(node):
+    x, y = node
+    directions = [(1,0),(-1,0),(0,1),(0,-1),(1,1),(1,-1),(-1,1),(-1,-1)]
+    for dx, dy in directions:
+        nx, ny = x+dx, y+dy
+        if 0 <= nx < rows and 0 <= ny < cols and grid[nx][ny] != 1:
+            yield (nx, ny)
+
+
+def reconstruct_path(parent, start, goal):
+    path = []
+    node = goal
+    while node != start:
+        path.append(node)
+        node = parent[node]
+    return [start] + path[::-1]
+
+def greedy_bfs(start, goal, h):
+    frontier = [(h(start, goal), start)]
+    parent, visited = {}, {start}
+    explored = 0
+    while frontier:
+        _, node = heapq.heappop(frontier)
+        explored += 1
+        if node == goal: return reconstruct_path(parent, start, goal), explored
+        for nb in neighbors(node):
+            if nb not in visited:
+                visited.add(nb)
+                parent[nb] = node
+                heapq.heappush(frontier, (h(nb, goal), nb))
+    return None, explored
+
+
+def astar(start, goal, h):
+    frontier = [(h(start, goal), 0, start)]
+    parent, g_score = {}, {start: 0}
+    explored = 0
+    while frontier:
+        f, g, node = heapq.heappop(frontier)
+        explored += 1
+        if node == goal: return reconstruct_path(parent, start, goal), explored
+        for nb in neighbors(node):
+            new_g = g + cost(*nb)
+            if nb not in g_score or new_g < g_score[nb]:
+                g_score[nb] = new_g
+                parent[nb] = node
+                heapq.heappush(frontier, (new_g + h(nb, goal), new_g, nb))
+    return None, explored
+
+
+def print_path(path):
+    board = [[str(cell) for cell in row] for row in grid]
+    if path:
+        for x, y in path:
+            if board[x][y] not in ('S', 'G'): board[x][y] = '*'
+    for row in board: print(" ".join(row))
+    print()
+
+
+for algo, func in [("Greedy BFS", greedy_bfs), ("A*", astar)]:
+    for hname, hfunc in [("Manhattan", manhattan), ("Euclidean", euclidean), ("Diagonal", diagonal)]:
+        start_time = time.time()
+        path, explored = func(start, goal, hfunc)
+        end_time = time.time()
+
+        if path:
+            print(f"{algo} with {hname}:")
+            print(f"  Path length = {len(path)}")
+            print(f"  Nodes explored = {explored}")
+            print(f"  Execution time = {end_time - start_time:.6f} sec")
+            print("  Path visualization:")
+            print_path(path)
+        else:
+            print(f"{algo} with {hname}: No path found\n")
+
+output:
+
+Greedy BFS with Manhattan:
+  Path length = 5
+  Nodes explored = 5
+  Execution time = 0.000002 sec
+  Path visualization:
+S * 0 1 0
+1 1 * 1 G
+0 5 * 1 0
+1 1 0 1 1
+0 0 0 0 0
+
+Greedy BFS with Euclidean:
+  Path length = 5
+  Nodes explored = 5
+  Execution time = 0.000002 sec
+  Path visualization:
+S * 0 1 0
+1 1 * 1 G
+0 5 * 1 0
+1 1 0 1 1
+0 0 0 0 0
+
+Greedy BFS with Diagonal:
+  Path length = 3
+  Nodes explored = 3
+  Execution time = 0.000001 sec
+  Path visualization:
+S 0 0 1 0
+1 1 * 1 G
+0 5 0 1 0
+1 1 0 1 1
+0 0 0 0 0
+
+A* with Manhattan:
+  Path length = 5
+  Nodes explored = 6
+  Execution time = 0.000003 sec
+  Path visualization:
+S * 0 1 0
+1 1 * 1 G
+0 5 * 1 0
+1 1 0 1 1
+0 0 0 0 0
+
+A* with Euclidean:
+  Path length = 5
+  Nodes explored = 6
+  Execution time = 0.000003 sec
+  Path visualization:
+S * 0 1 0
+1 1 * 1 G
+0 5 * 1 0
+1 1 0 1 1
+0 0 0 0 0
+
+A* with Diagonal:
+  Path length = 3
+  Nodes explored = 3
+  Execution time = 0.000002 sec
+  Path visualization:
+S 0 0 1 0
+1 1 * 1 G
+0 5 0 1 0
+1 1 0 1 1
+0 0 0 0 0
+
