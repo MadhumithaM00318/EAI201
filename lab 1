@@ -53,3 +53,34 @@ while True:
         break
     
     vacuums[shape_choice].command(action)
+
+
+output:
+
+ Smart Vacuum Cleaner Simulation
+Available shapes: circle, square, triangle, rectangle
+Commands: start, stop, left, right, dock, exit
+
+Choose a vacuum shape: circle
+ Circle Vacuum Advantage: Best for smooth mobility and avoiding obstacles
+ Enter command for circle vacuum: start
+ Circle vacuum started cleaning...
+
+Choose a vacuum shape: circle
+ Circle Vacuum Advantage: Best for smooth mobility and avoiding obstacles
+ Enter command for circle vacuum: left
+Circle vacuum turned left.
+
+Choose a vacuum shape: square
+ Square Vacuum Advantage: Better at reaching into corners
+ Enter command for square vacuum: dock
+ Square vacuum returning to dock for charging.
+
+Choose a vacuum shape: triangle
+ Triangle Vacuum Advantage: Sharp tip cleans deep corners
+ Enter command for triangle vacuum: stop
+ Triangle vacuum stopped.
+
+Choose a vacuum shape: exit
+ Simulation ended.
+
