@@ -1,0 +1,32 @@
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+
+true_slope = 8.0
+true_intercept = 12.0
+
+X = np.linspace(0, 15, 200)
+y = true_slope * X + true_intercept + np.random.normal(0, 3, size=X.shape)
+
+model = tf.keras.Sequential([
+    tf.keras.layers.Dense(1, input_shape=(1,))
+])
+
+model.compile(optimizer='adam', loss='mse')
+history = model.fit(X, y, epochs=100, verbose=0)
+w, b = model.layers[0].get_weights()
+print(f"True slope: {true_slope:.2f}, True intercept: {true_intercept:.2f}")
+print(f"Learned slope: {w[0][0]:.2f}, Learned intercept: {b[0]:.2f}")
+
+x_test = np.array([[20.0]])
+y_pred = model.predict(x_test)
+print(f"Prediction for x={x_test[0][0]} → y={y_pred[0][0]:.2f}")
+
+plt.scatter(X, y, color='blue', label='Noisy Data')
+plt.plot(X, model.predict(X), color='red', label='Learned Line')
+plt.xlabel('X')
+plt.ylabel('y')
+plt.title('Linear Regression using TensorFlow')
+plt.legend()
+plt.grid(True)
+plt.show()
