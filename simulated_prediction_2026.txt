@@ -1,0 +1,4 @@
+Top predicted finalists (simulated):
+   Team  Avg_Win_Prob
+ France      0.488861
+Uruguay      0.484952

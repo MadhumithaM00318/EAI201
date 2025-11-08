@@ -1,0 +1,21 @@
+Feature importances (Random Forest):
+Goal_Diff        0.781102
+Poss_Diff        0.056346
+Rank_Diff        0.047150
+Age_Diff         0.042603
+PastPerf_Diff    0.028834
+Exp_Diff         0.022789
+ShotsOT_Diff     0.021177
+
+
+Logistic Regression coefficients (sorted by absolute value):
+Goal_Diff        6.351218
+Poss_Diff        0.183804
+Rank_Diff        0.086864
+PastPerf_Diff    0.079498
+ShotsOT_Diff    -0.065099
+Age_Diff         0.048149
+Exp_Diff         0.008109
+
+
+Interpretation: Rank_Diff and Goal_Diff are expected to be strong predictors; positive Rank_Diff indicates Team1 has better ranking. Shots and Past performance tend to support predictive power. Note: dataset is synthetic — real scraped data will change importances.

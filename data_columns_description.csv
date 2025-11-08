@@ -1,0 +1,13 @@
+,0
+Year,Tournament year
+Team1/Team2,Teams playing
+Goals_Team1/Goals_Team2,Goals scored
+Winner,Match winner or Draw
+FIFA_Ranking_Team1/Team2,Pre-tournament FIFA ranking
+Avg_Age_Team1/Team2,Average age of squad
+Experience_Team1/Team2,Average previous WC experience
+Possession_Team1/Team2,Percent possession
+Shots_On_Target_T1/T2,Shots on target
+Past_WC_Performance_T1/T2,Historical success index (0-5)
+"Goal_Diff,Rank_Diff,...",Engineered diff features (Team1 minus Team2)
+Team1_Win,"Target: 1 if Team1 won, else 0"
